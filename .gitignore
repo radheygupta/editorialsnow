@@ -89,3 +89,4 @@ ENV/
 .ropeproject
 editorialsnow/*
 db.sqlite3
+editorials/migrations/
