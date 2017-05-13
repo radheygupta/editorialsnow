@@ -1,0 +1,63 @@
+{% extends "editorials/base2.html"%}
+{% load static %}
+{% block mainContent %}
+
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        {% for ediObj in latest_edi_list %}
+            <div class="cont-div" id="cont-{{ ediObj.id }}">
+                <a href="#" title="{{ ediObj.title }}">
+                    <div class="img-div"><img src="{% static "editorials/images/beautifulnaturephotography.jpg" %}"></div>
+                </a>
+                <span class="text-h3">
+                    <a href="{% url 'editorials-index:display-url' ediObj.id %}">{{ ediObj.title }}</a>
+                </span>
+                <div class="title-secondary">
+                    
+                </div>
+                <div class="cont-summary-{{ ediObj.id }}">
+                    <p> {{ ediObj.content|slice:"3:200"|safe }}...... </p>
+                </div>
+                                                                
+                <a class="button blue" href="{% url 'editorials-index:display-url' ediObj.id %}">Read More</a>
+                <div style="clear: both;"></div>
+            </div>
+        {% endfor %}
+        
+        
+        <nav aria-label="page-navigation">
+        <ul class="pagination">
+            {% if latest_edi_list.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'editorials-index:index-url' latest_edi_list.previous_page_number %}" tabindex="-1">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">Previous</a>
+                </li>
+            {% endif %}
+                
+            {% for i in pageList %}
+                {% if i == latest_edi_list.number %}
+                    <li class="page-item active"><a class="page-link" href="{% url 'editorials-index:index-url' i %}" >{{ i }}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="{% url 'editorials-index:index-url' i %}">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}          
+            {% if latest_edi_list.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{% url 'editorials-index:index-url' latest_edi_list.next_page_number %}" tabindex="-1">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+        </nav>
+        
+        
+    </div>
+</div>
+
+{% endblock mainContent %}

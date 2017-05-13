@@ -1,0 +1,53 @@
+{% extends "editorials/base2.html"%}
+{% load static %}
+{% block mainContent %}
+
+<div class="main-inner-wrap">
+    <div class="content section" id="content">
+        <div class="widget Blog" data-version="1" id="Blog1">
+            <div class="blog-posts hfeed">
+                <div class="date-outer">
+                    <div class="date-posts">
+                        <div class="post-outer">
+                            <div class="post hentry uncustomized-post-template" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+                                <h1 class="post-title entry-title" itemprop="name headline">
+                                    {{ edtObj.title }}
+                                </h1>
+                                <div class="title-secondary">
+                                    {% if edtObj.author %}
+                                    <span itemprop="name">{{ edtObj.author }}</span>
+                                    &nbsp;
+                                    {% endif %}
+                                    <span itemprop="datePublished">
+                                        <i class="fa fa-calendar-o"></i>   
+                                        <span itemprop="datePublished" title="{{ edtObj.published_date }}">{{ edtObj.published_date }}</span>
+                                    </span>
+                                     <span itemprop="newspaper">
+                                        <i class="fa fa-calendar-o"></i>   
+                                        <span itemprop="newspaper" title="{{ edtObj.news_paper }}">{{ edtObj.news_paper }}</span>
+                                    </span>
+                                </div>
+                                <div class="post-header">
+                                    <div class="post-header-line-1">
+                                        {{ edtObj.subtitle|safe }}
+                                    </div>
+                                </div>
+                                
+                                <div class="post-body entry-content">
+                                    <div itemprop="description articleBody">
+                                        {{ edtObj.content|safe }}
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<!-- main-inner-wrap -->
+{% endblock mainContent %}

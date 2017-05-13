@@ -1,0 +1,82 @@
+{% extends "editorials/base2.html"%}
+{% load static %}
+{% block mainContent %}
+<div class="main-inner-wrap">
+    <div class="doze tob-contid section" id="lists1">
+    </div>
+    <div class="clear"></div>
+    <div class="content section" id="content">
+        <div class="widget Blog" data-version="1" id="Blog1">
+            <div class="blog-posts hfeed">
+                <div class="date-outer">
+                    
+                    <div class="date-posts">
+                        <div class="post-outer">
+                            <div class="post hentry uncustomized-post-template" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+                                {% for ediObj in latest_edi_list %}
+                                <a name="9118208365083357738"></a>
+                                <div class="post-header">
+                                    <div class="post-header-line-1"></div>
+                                </div>
+                                <div class="post-body entry-content" id="post-body-{{ ediObj.id }}">
+                                    <a href="#" title="{{ ediObj.title }}">
+                                        <div class="bukshan"><img src="{% static "editorials/images/beautifulnaturephotography.jpg" %}"></div>
+                                    </a>
+                                    <h2 class="post-title entry-title" itemprop="name headline">
+                                        <a href="{% url 'editorials-index:display-url' ediObj.id %}">
+                                        {{ ediObj.title }}</a>
+                                    </h2>
+                                    <div class="title-secondary"> 
+                                        {% if ediObj.author %}
+                                        <span class="fa fa-user"></span>
+                                        <a href="#" title="author profile">
+                                        <span itemprop="name">{{ ediObj.author }}</span>
+                                        </a>
+                                        &nbsp;
+                                        {% endif %}
+                                        <span itemprop="dateModified">
+                                            <i class="fa fa-calendar-o"></i>
+                                            
+                                                <span itemprop="datePublished" title="{{ ediObj.published_date }}">
+                                                    {{ ediObj.published_date }}
+                                                </span>
+                                            
+                                        </span>
+                                        <span class="post-comment-link">
+                                        &nbsp; <i class="fa fa-comment-o"></i>
+                                        <a class="comment-link" href="#" onclick="">
+                                        20 comments:
+                                        </a>
+                                        </span>
+                                    </div>
+                                    <div id="summary{{ ediObj.id }}">
+                                        <p> {{ ediObj.content|slice:"3:200"|safe }}...... </p>
+                                    </div>
+                                    <a class="button blue" href="{{ ediObj.fetched_url }}" target="_blank">Read More</a>
+                                    <div style="clear: both;"></div>
+                                </div>
+                                <div class="post-footer">
+                                    <div class="post-footer-line post-footer-line-1"></div>
+                                    <div class="post-footer-line post-footer-line-2"></div>
+                                    <div class="post-footer-line post-footer-line-3">
+                                        <span class="post-location">
+                                        </span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-pager" id="blog-pager"><span class="showpageOf">Page undefined of 6</span></div>
+            <div class="clear"></div>
+            <script type="text/javascript">window.___gcfg = {'lang': 'en'};</script>
+        </div>
+    </div>
+    <div class="ganed tob-contid1 section" id="lists5">
+    </div>
+    <div class="clear"></div>
+</div>
+<!-- main-inner-wrap -->
+{% endblock mainContent %}
