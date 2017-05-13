@@ -87,6 +87,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
-editorialsnow/*
+
+#added
 db.sqlite3
-editorials/migrations/
+editorialsnow/settings.py
+
