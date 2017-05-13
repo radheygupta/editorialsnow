@@ -37,7 +37,7 @@ def index(request,page=1):
                
     pageList = range(startPoint,endPoint+1)
         
-    return render(request, 'editorials/index2.html', {'latest_edi_list': editorialsList,'pageList':pageList })
+    return render(request, 'editorials/index.html', {'latest_edi_list': editorialsList,'pageList':pageList })
    
 def display(request,edt_id):
     edtObj = Editorials.objects.get(pk=edt_id)
