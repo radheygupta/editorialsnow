@@ -91,4 +91,5 @@ ENV/
 #added
 db.sqlite3
 editorialsnow/settings.py
+scripts/utils/database.py
 
