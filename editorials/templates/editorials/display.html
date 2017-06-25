@@ -20,7 +20,7 @@
                                     {% endif %}
                                     <span itemprop="datePublished">
                                         <i class="fa fa-calendar-o"></i>   
-                                        <span itemprop="datePublished" title="{{ edtObj.published_date }}">{{ edtObj.published_date }}</span>
+                                        <span itemprop="datePublished" title="{{ edtObj.published_date }}">{{ edtObj.published_date|date:"M d, Y"}}</span>
                                     </span>
                                      <span itemprop="newspaper">
                                         <i class="fa fa-calendar-o"></i>   
