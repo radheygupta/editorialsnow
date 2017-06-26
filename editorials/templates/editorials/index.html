@@ -6,9 +6,6 @@
     <div class="col-md-12 col-xs-12">
         {% for ediObj in latest_edi_list %}
             <div class="cont-div" id="cont-{{ ediObj.id }}">
-                <a href="#" title="{{ ediObj.title }}">
-                    <div class="img-div"><img src="{% static "editorials/images/beautifulnaturephotography.jpg" %}"></div>
-                </a>
                 <span class="text-h3">
                     <a href="{% url 'editorials-index:display-url' ediObj.id %}">{{ ediObj.title }}</a>
                 </span>
