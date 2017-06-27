@@ -5,7 +5,7 @@
 <div class="row">
     <div class="col-md-12 col-xs-12">
         {% for ediObj in latest_edi_list %}
-            <div class="cont-div" id="cont-{{ ediObj.id }}">
+<!--            <div class="cont-div" id="cont-{{ ediObj.id }}">
                 <span class="text-h3">
                     <a href="{% url 'editorials-index:display-url' ediObj.id %}">{{ ediObj.title }}</a>
                 </span>
@@ -18,6 +18,14 @@
                                                                 
                 <a class="button blue" href="{% url 'editorials-index:display-url' ediObj.id %}">Read More</a>
                 <div style="clear: both;"></div>
+            </div>-->
+            <div class="card mb-2" id="cont-{{ ediObj.id }}">
+                <div class="card-block" style="background-color: #eeeeee;">
+                    <h4 class="card-title"><a href="{% url 'editorials-index:display-url' ediObj.id %}">{{ ediObj.title }}</a></h4>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p class="card-text">{{ ediObj.content|slice:"3:200"|safe }}...... </p>
+                    <a href="{% url 'editorials-index:display-url' ediObj.id %}" class="card-link">Read More</a>
+                </div>
             </div>
         {% endfor %}
         
