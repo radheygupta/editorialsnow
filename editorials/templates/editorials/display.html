@@ -13,23 +13,26 @@
                                 <h1 class="post-title entry-title" itemprop="name headline">
                                     {{ edtObj.title }}
                                 </h1>
-                                <div class="title-secondary">
+                                <div class="title-secondary mb-2">
                                     {% if edtObj.author %}
-                                    <span itemprop="name">{{ edtObj.author }}</span>
+
+                                    <span itemprop="name" class="mr-1"><i class="fa fa-user"></i>&nbsp;{{ edtObj.author }}</span>
                                     &nbsp;
                                     {% endif %}
-                                    <span itemprop="datePublished">
-                                        <i class="fa fa-calendar-o"></i>   
-                                        <span itemprop="datePublished" title="{{ edtObj.published_date }}">{{ edtObj.published_date|date:"M d, Y"}}</span>
-                                    </span>
+
+
+                                        <span itemprop="datePublished" title="{{ edtObj.published_date }}" class="mr-1">
+                                            <i class="fa fa-calendar"></i>&nbsp;{{ edtObj.published_date|date:"M d, Y"}}</span>
+
                                      <span itemprop="newspaper">
-                                        <i class="fa fa-calendar-o"></i>   
-                                        <span itemprop="newspaper" title="{{ edtObj.news_paper }}">{{ edtObj.news_paper }}</span>
+
+                                        <span itemprop="newspaper" title="{{ edtObj.news_paper }}">
+                                            <i class="fa fa-newspaper-o"></i>&nbsp;{{ edtObj.news_paper }}</span>
                                     </span>
                                 </div>
                                 <div class="post-header">
-                                    <div class="post-header-line-1">
-                                        {{ edtObj.subtitle|safe }}
+                                    <div class="mb-2">
+                                        <h4>{{ edtObj.subtitle|safe }}</h4>
                                     </div>
                                 </div>
                                 

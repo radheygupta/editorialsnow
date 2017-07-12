@@ -3,8 +3,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
-
 class Editorials(models.Model):
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=500,null=True,blank=True)
@@ -17,6 +15,5 @@ class Editorials(models.Model):
     
     class Meta:
         db_table = 'editorials'
-        
 
     

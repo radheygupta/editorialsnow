@@ -6,11 +6,95 @@
         <title>Editorials Now</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="stylesheet" href="{% static "editorials/css/custom.css" %}"/>
+        <script type="text/javascript">
+        $('#myModal').modal('show');
+        $(document).ready(function(){
+            var signup_form = $('#signup-form');
+            signup_form.submit(function () {
+                $.ajax({
+                type: signup_form.attr('method'),
+                url: signup_form.attr('action'),
+                data: signup_form.serialize(),
+                beforeSend: function (request) {
+                   request.setRequestHeader("X-CSRFToken",
+                       $('input[name="csrfmiddlewaretoken"]').val());
+                   },
+                success: function (data) {
+                    if(data.result == 'error')
+                    {
+                        if(typeof data.data.name != "undefined")
+                        {
+                            $('#name_error').text(data.data.name.join('<br/>'))
+                        }
+                        if(typeof data.data.email != "undefined")
+                        {
+                            $('#email_error').text(data.data.email.join('<br/>'))
+                        }
+                        if(typeof data.data.password != "undefined")
+                        {
+                            $('#password_error').text(data.data.password.join('<br/>'))
+                        }
+                    }
+                    else if(data.result == 'success')
+                    {
+                        window.location.reload();
+                    }
+                    console.log(data);
+                    },
+                error: function(data) {
+                    //$("#MESSAGE-DIV").html("Something went wrong!");
+                    console.log("Something went wrong!");
+                    console.log(data);
+                }
+            });
+            return false;
+            });
+            var login_form = $('#login-form');
+            login_form.submit(function () {
+                $.ajax({
+                type: login_form.attr('method'),
+                url: login_form.attr('action'),
+                data: login_form.serialize(),
+                beforeSend: function (request) {
+                   request.setRequestHeader("X-CSRFToken",
+                       $('input[name="csrfmiddlewaretoken"]').val());
+                   },
+                success: function (data) {
+                    if(data.result == 'error')
+                    {
+                        if(typeof data.data.email != "undefined")
+                        {
+                            $('#s_email_error').text(data.data.email.join('<br/>'))
+                        }
+                        if(typeof data.data.password != "undefined")
+                        {
+                            $('#s_password_error').text(data.data.password.join('<br/>'))
+                        }
+                    }
+                    else if(data.result == 'success')
+                    {
+                        window.location.reload();
+                    }
+                         console.log(data);
+                    },
+                error: function(data) {
+                    //$("#MESSAGE-DIV").html("Something went wrong!");
+                    console.log("Something went wrong!");
+                    console.log(data);
+                }
+            });
+            return false;
+            });
+            
+         });
+        
+        </script>
     </head>
     <body>
-        <nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md mb-3" style="background-color: #e3f2fd;">
+        <nav class="navbar navbar-light bg-faded rounded navbar-toggleable-md mb-3" style="background-color: #bebebe;">
         <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#containerNavbar" aria-controls="containerNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,7 +102,7 @@
         <div class="navbar-collapse collapse" id="containerNavbar" aria-expanded="false">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Popular</a>
@@ -27,12 +111,158 @@
                     <a class="nav-link" href="#">Contact us</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-md-0">
+            <form class="form-inline my-2 my-md-0 mr-5">
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
             </form>
+            <ul class="navbar-nav my-2 my-md-0">
+                <li class="nav-item">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <span class="nav-link">Hi {{ request.user.first_name | title }}! </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-hidden="true" href="{% url 'editorials-index:userlogout' %}">
+                                <i class="fa fa-power-off fa-lg" aria-hidden="true"></i>
+                            </a>
+
+                        </li>
+
+
+                    {% else %}
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#myModal">Sign in</a>
+                    {% endif %}
+
+                </li>
+            </ul>
         </div>
         </nav>
+<!--     Sign in modal start  -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">
+                    Login/Registration</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8" style="border-right: 1px dotted #C2C2C2;padding-right: 30px;">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#Login" role="tab" data-toggle="tab">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#Registration" role="tab" data-toggle="tab">Registration</a>
+                            </li>
+                         </ul>    
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="Login">
+                                <form role="form" class="form-horizontal" id="login-form" method="post" action="/editorials/ajaxlogin">
+                                    {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 control-label">
+                                        Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email1" name="email" placeholder="Email">
+                                        <span class="text-danger small" id="s_email_error"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1" class="col-sm-2 control-label">
+                                        Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+                                        <span class="text-danger small" id="s_password_error"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            Submit</button>
+                                        <a href="javascript:">Forgot your password?</a>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="Registration">
+                                <form role="form" id="signup-form" method="post" action="/editorials/ajaxsignup">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-2 col-form-label">Name</label>
+                                    <div class="col-sm-3">
+                                        <select class="custom-select" name="title">
+                                        <option>Mr.</option>
+                                        <option>Ms.</option>
+                                        <option>Mrs.</option>
+                                        </select> 
+                                        
+                                    </div>
+                                    <div class="col-sm-7">
+
+                                        <input type="text" class="form-control" placeholder="Name" name="name" id="id_name">
+                                        <span class="text-danger small" id="name_error"></span>
+                                    </div>
+                                </div>    
+                                    
+                                <div class="form-group row">
+                                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                                    <div class="col-sm-10">
+
+                                        <input type="email" class="form-control" id="id_email" name="email" placeholder="Email">
+                                         <span class="text-danger small" id="email_error"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="password" class="col-sm-2 col-form-label">
+                                        Password</label>
+                                    <div class="col-sm-10">
+
+                                        <input type="password" class="form-control" id="id_password" name="password" placeholder="Password">
+                                        <span class="text-danger small" id="password_error"></span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <input type="submit" class="btn btn-primary btn-sm" value="Save &amp; Continue">
+                                            
+                                        <button type="button" class="btn btn-default btn-sm">
+                                            Cancel</button>
+                                    </div>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="OR" class="hidden-xs">
+                            OR</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row text-center sign-with">
+                            <div class="col-md-12">
+                                <h3>
+                                    Sign in with</h3>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn-group btn-group-justified">
+                                    <a href="#" class="btn btn-primary">Facebook</a> <a href="#" class="btn btn-danger">
+                                        Google</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--     Sign in modal end     -->
         <div class="container">
             <div class="row-fluid">
                 <div class="col-md-8 col-xs-12">
@@ -44,10 +274,11 @@
                 </div>
             </div>
         </div>
-        <footer class="footer" style="background-color: #e3f2fd;">
-        <div class="container py-2">
-            <span class="text-muted">2017 <a href="/">Editorials Now</a></span>
-        </div>
+        <footer class="footer" style="background-color: #bebebe;">
+            <div class="container py-2">
+                <span class="text-muted">2017 <a href="/">Editorials Now</a></span>
+
+            </div>
         </footer>
     </body>
 </html>
