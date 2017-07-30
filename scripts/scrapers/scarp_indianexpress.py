@@ -15,10 +15,16 @@ def getData(pageurl):
     published_on = bsObj.find("meta",{"property":"article:published_time"}).attrs['content']
     published_on_dt = datetime.datetime.strptime(published_on, '%B %d, %Y %I:%M %p')
     content_div = bsObj.find("div",{"itemprop":"articleBody"})
+    for s in content_div.findAll("script"):
+        s.decompose()
     content = '';
 
     for x in content_div.findAll("p"):
+        paragraph = x.get_text().strip()
+        if(paragraph == '' or paragraph == 'For all the latest Opinion News, download Indian Express App'):
+            continue
         content = content+"<p>"+x.get_text().strip()+"</p>\n\n"
+ 
     #saveEditorial(title, subtitle, content, author, news_paper, published_date, fetched_date, fetched_url)
     database.saveEditorial(title, shortDesc, content, None, 'IndianExpress', published_on_dt, None, pageurl)
 
