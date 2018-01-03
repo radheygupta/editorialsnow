@@ -10,7 +10,6 @@
                     <a href="{% url 'editorials-index:display-url' ediObj.id %}">{{ ediObj.title }}</a>
                 </span>
                 <div class="title-secondary">
-                    
                 </div>
                 <div class="cont-summary-{{ ediObj.id }}">
                     <p> {{ ediObj.content|slice:"3:200"|safe }}...... </p>
