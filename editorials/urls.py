@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^ajaxsignup', views.ajaxsignup, name='usersignup'),
     url(r'^ajaxlogin', views.ajaxlogin, name='userlogin'),
     url(r'^userlogout', views.userlogout, name='userlogout'),
+    url(r'updateprofile',views.update_profile, name='updateprofile'),
+    url(r'^userlogin', views.userlogin, name='userlogin'),
+    url(r'^userregistration', views.userregistration, name='userregistration'),
 ]
