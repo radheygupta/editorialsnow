@@ -1,14 +1,11 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponsePermanentRedirect
 from django.contrib.auth import authenticate, login, logout
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 from editorials.models import Editorials
 from .forms import RegistrationForm, LoginForm, UserForm, ProfileForm
 import json
-
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 
@@ -43,16 +40,18 @@ def index(request, page=1):
     return render(request, 'editorials/index.html', {'latest_edi_list': editorialsList, 'pageList': pageList})
 
 
-def display(request, edt_id):
+def display(request, edt_id, slug=None):
     edtObj = Editorials.objects.get(pk=edt_id)
+    if slug != edtObj.slug:
+        if edtObj.slug is not None:
+            uri = '/editorials/show/' + edt_id + '/' + edtObj.slug + '/'
+        else:
+            uri = '/editorials/show/' + edt_id + '/'
+        return HttpResponsePermanentRedirect(uri)
     return render(request, 'editorials/display.html', {'edtObj': edtObj})
 
 
 def ajaxsignup(request):
-    # email = request.POST.get(email,None)
-    # data = {
-    # 'ErrorMsg': Users.objects.filter(email__iexact=email).exists()
-    # }
     if request.method == 'POST' and request.is_ajax() is True:
         form = RegistrationForm(request.POST)
         response_data = {}

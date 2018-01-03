@@ -14,6 +14,17 @@ class RegistrationForm(forms.Form):
     email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}), max_length=150)
     password = forms.CharField(required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}), min_length=8)
 
+    def clean_email(self):
+
+        if User.objects.filter(username=self.cleaned_data['email']).exists():
+            raise forms.ValidationError(('User alredy exists : %(value)s'),
+                code='invalid',
+                params={'value': self.cleaned_data['email']},
+            )
+        else:
+            return self.cleaned_data['email']
+
+
     def save(self, commit=True):
         first_name, last_name = (self.cleaned_data['name'].split(" ", 1) + [None])[:2]
         if last_name:

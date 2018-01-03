@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from django.utils.text import slugify
+
 
 class Editorials(models.Model):
     title = models.CharField(max_length=100)
@@ -17,10 +19,15 @@ class Editorials(models.Model):
     published_date = models.DateTimeField()
     fetched_date = models.DateTimeField(auto_now_add=True)
     fetched_url = models.URLField(max_length=400)
-    # slug = models.CharField(max_length=120)
+    slug = models.SlugField(max_length=150, null=True, blank=True)
     
     class Meta:
         db_table = 'editorials'
+
+    def save(self, *args, **kwargs):
+        print("This is in editorilas save method")
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Profile(models.Model):

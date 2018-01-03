@@ -20,5 +20,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^editorials/', include('editorials.urls', namespace='editorials-index')),
-    url(r'^$', include('editorials.urls', namespace='index')),
+    url(r'^', include('editorials.urls', namespace='index')),
 ]
